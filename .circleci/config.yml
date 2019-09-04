@@ -1,0 +1,26 @@
+version: 2
+jobs:
+  build:
+    #machine: true
+    steps:
+    - run:
+        name: Create DO droplet
+        command: |
+          docker run --rm --interactive --tty \
+          --env=DIGITALOCEAN_ACCESS_TOKEN=$DO_TOKEN \
+          digitalocean/doctl compute droplet \
+          create $CIRCLE_PROJECT_REPONAME_$CIRCLE_BUILD_NUM \
+          --size 1gb --image selenoid-18-04 --region fra1
+    - run:
+        name: Delete DO droplet
+        command: |
+          docker run --rm --interactive --tty \
+          --env=DIGITALOCEAN_ACCESS_TOKEN=$DO_TOKEN \
+          digitalocean/doctl compute droplet \
+          delete -f $CIRCLE_PROJECT_REPONAME_$CIRCLE_BUILD_NUM
+
+workflows:
+  version: 2
+  workflow:
+     jobs:
+     - build
