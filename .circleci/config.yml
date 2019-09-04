@@ -9,7 +9,7 @@ jobs:
           docker run --rm --interactive --tty \
           --env=DIGITALOCEAN_ACCESS_TOKEN=$DO_TOKEN \
           digitalocean/doctl compute droplet \
-          create doctl_$CIRCLE_BUILD_NUM \
+          create doctl-$CIRCLE_BUILD_NUM \
           --size 1gb --image selenoid-18-04 --region fra1
     - run:
         name: sleep 60
@@ -20,7 +20,7 @@ jobs:
           docker run --rm --interactive --tty \
           --env=DIGITALOCEAN_ACCESS_TOKEN=$DO_TOKEN \
           digitalocean/doctl compute droplet \
-          delete -f doctl_$CIRCLE_BUILD_NUM
+          delete -f doctl-$CIRCLE_BUILD_NUM
 
 workflows:
   version: 2
